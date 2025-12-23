@@ -1,40 +1,15 @@
-
-# --- Terraform directories ---
 .terraform/
-crash.log
-crash.*
-
-# --- Terraform state ---
 terraform.tfstate
 terraform.tfstate.*
 *.tfstate
-*.tfstate.*
-
-# --- Terraform plans ---
 *.tfplan
-
-# --- Variables and secrets ---
 *.auto.tfvars
 *.auto.tfvars.json
 *.tfvars
 *.tfvars.json
-
-# --- Common local files ---
-*.pem
-*.key
-*.crt
-*.cer
-*.p12
-*.kdb
-*.jks
-
-# --- OS/Editor noise ---
+decoded.json
+profile.json
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
-
-# --- If you generate local profiles or decoded secrets ---
-decoded.json
-profile.json
-
