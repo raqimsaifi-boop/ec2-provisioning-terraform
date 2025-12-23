@@ -1,0 +1,26 @@
+
+{
+  "region": "ap-south-1",
+  "environment": "Production",
+  "network_profile_name": "ec2",
+  "instances": [
+    {
+      "name": "APP-PROD-02",
+      "size": "large",
+      "ebsrootsizegb": 50,
+      "ebsroottype": "gp3",
+      "ebsrootiops": 3000,
+      "tags": {
+        "Application": "Billing",
+        "Technical Owner": "tech.owner@company.com",
+        "Business Owner": "business.owner@company.com",
+        "Environment": "Production",
+        "Criticality": "Critical",
+        "Data Sensitivity": "High",
+        "DeleteOn": "2025-12-31",
+        "Schedule": "24x7",
+        "CreationDate": "2025-12-09"
+      }
+    }
+  ]
+}
