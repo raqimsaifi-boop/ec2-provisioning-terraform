@@ -1,15 +1,28 @@
+
+# --- Terraform directories ---
 .terraform/
+
+# --- Terraform state ---
 terraform.tfstate
 terraform.tfstate.*
 *.tfstate
+*.tfstate.*
+
+# --- Terraform plans ---
 *.tfplan
+
+# --- Variables and secrets ---
 *.auto.tfvars
 *.auto.tfvars.json
 *.tfvars
 *.tfvars.json
+
+# --- Local JSONs that may hold secrets ---
 decoded.json
 profile.json
+
+# --- OS/Editor noise ---
 .DS_Store
 Thumbs.db
 .vscode/
-.idea/
+.idea
