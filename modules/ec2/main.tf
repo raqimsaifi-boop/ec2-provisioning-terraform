@@ -107,6 +107,12 @@ resource "aws_instance" "this" {
   iam_instance_profile        = local.resolved_instance_profile[each.key]
   associate_public_ip_address = try(each.value.enablepublicip, false)
 
+
+  lifecycle {
+    # Prevent replacing existing servers if subnet changes in profile or tfvars later
+    ignore_changes = [subnet_id]
+  }
+
   # Instance tags (applied to resourceType = "instance")
   tags = merge(
     {
