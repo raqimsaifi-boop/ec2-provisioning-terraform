@@ -1,0 +1,20 @@
+{
+    "name": "ec2-provisioning-build",
+    "source": {
+      "type": "CODEPIPELINE",
+      "buildspec": "version: 0.2\nphases:\n  install:\n    commands:\n      - terraform -version\n  build:\n    commands:\n      - echo \"Fetching tfvars for $ENVIRONMENT...\"\n      - aws s3 cp s3://tfvars-request-bucket/requests/$ENVIRONMENT.auto.tfvars.json ./examples/request.auto.tfvars.json\n      - cd ec2-provisioning-terraform\n      - terraform init -input=false\n      - terraform workspace select $ENVIRONMENT || terraform workspace new $ENVIRONMENT\n      - terraform plan  -input=false -var-file=../examples/request.auto.tfvars.json\n      - terraform apply -auto-approve -input=false -var-file=../examples/request.auto.tfvars.json\nartifacts:\n  files:\n    - '**/*'\n"
+    },
+    "artifacts": {
+      "type": "CODEPIPELINE"
+    },
+    "environment": {
+      "type": "LINUX_CONTAINER",
+      "image": "aws/codebuild/standard:7.0",
+      "computeType": "BUILD_GENERAL1_SMALL",
+      "environmentVariables": [
+        { "name": "AWS_DEFAULT_REGION", "value": "ap-south-1", "type": "PLAINTEXT" }
+      ]
+    },
+     "serviceRole": "arn:aws:iam::552887001281:role/Ec2ProvisioningCodeBuildRole",
+    "description": "Build triggered by CodePipeline; buildspec configured in source.buildspec."
+}

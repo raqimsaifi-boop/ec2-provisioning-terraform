@@ -1,0 +1,16 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - terraform -version
+  build:
+    commands:
+      - echo "Fetching tfvars for $ENVIRONMENT..."
+      - aws s3 cp s3://tfvars-request-bucket/requests/$ENVIRONMENT.auto.tfvars.json ./examples/request.auto.tfvars.json
+      - cd ec2-provisioning-terraform
+      - terraform init -input=false
+      - terraform workspace select $ENVIRONMENT || terraform workspace new $ENVIRONMENT
+      - terraform plan  -input=false -var-file=../examples/request.auto.tfvars.json
+      - terraform apply -auto-approve -input=false -var-file=../examples/request.auto.tfvars.json
+artartifacts:
+  files:

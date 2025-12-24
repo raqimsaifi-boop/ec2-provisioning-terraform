@@ -1,0 +1,35 @@
+{
+    "pipelineExecutionParameters": {
+      "pipelineParameters": [
+        {
+          "name": "CompanyDomain",
+          "value": "TEKTRONIX"
+        },
+        {
+          "name": "Environment",
+          "value": "PRD"
+        },
+        {
+          "name": "AccountId",
+          "value": "111122223333"
+        },
+        {
+          "name": "Region",
+          "value": "ap-south-1"
+        },
+        {
+          "name": "BackendBucket",
+          "value": "tek-bv-terraform-state"
+        },
+        {
+          "name": "DynamoDbTable",
+          "value": "terraform-locks"
+        },
+        {
+          "name": "WorkspaceKeyPrefix",
+          "value": "ec2-provisioning/tektronix"
+        }
+      ]
+    }
+  }
+    
