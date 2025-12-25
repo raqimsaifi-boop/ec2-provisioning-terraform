@@ -2,9 +2,9 @@ terraform {
   backend "s3" {
     bucket               = "tek-bv-terraform-state"
     region               = "ap-south-1"
-    key                  = "terraform.tfstate"        # REQUIRED: path in the bucket
+    key                  = "ec2-provisioning/default/terraform.tfstate"  # default now lives under prefix
+    workspace_key_prefix = "ec2-provisioning"
     encrypt              = true
-    workspace_key_prefix = "ec2-provisioning"         # optional, used with workspaces
-    use_lockfile         = true                       # S3-native locking (recommended)
+    use_lockfile         = true  # native S3 locking (Terraform 1.10+)
   }
 }
