@@ -146,7 +146,8 @@ resource "aws_instance" "this" {
     volume_type           = each.value.ebsroottype
     iops                  = try(each.value.ebsrootiops, 0) > 0 ? each.value.ebsrootiops : null
     encrypted             = true
-    kms_key_id            = local.net.ebs_kms_key_id # keep if SCP requires CMK usage
+    # kms_key_id            = local.net.ebs_kms_key_id # keep if SCP requires CMK usage
+    kms_key_id            = try(local.net.ebs_kms_key_id, "") != "" ? local.net.ebs_kms_key_id : null
     delete_on_termination = true
   }
 
@@ -159,8 +160,10 @@ resource "aws_instance" "this" {
       volume_size           = ebs_block_device.value.sizegb
       volume_type           = ebs_block_device.value.type
       iops                  = try(ebs_block_device.value.iops, 0) > 0 ? ebs_block_device.value.iops : null
-      encrypted             = ebs_block_device.value.encrypted
-      kms_key_id            = local.net.ebs_kms_key_id # keep if SCP requires CMK usage
+      # encrypted             = ebs_block_device.value.encrypted
+      # kms_key_id            = local.net.ebs_kms_key_id # keep if SCP requires CMK usage
+      encrypted             = coalesce(ebs_block_device.value.encrypted, true)
+      kms_key_id            = try(local.net.ebs_kms_key_id, "") != "" ? local.net.ebs_kms_key_id : null
       delete_on_termination = true
     }
   }
