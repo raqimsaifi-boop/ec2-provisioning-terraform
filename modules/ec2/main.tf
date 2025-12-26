@@ -109,9 +109,16 @@ resource "aws_instance" "this" {
 
 
   lifecycle {
-    # Prevent replacing existing servers if subnet changes in profile or tfvars later
-    ignore_changes = [subnet_id]
+    # You already ignore subnet_id to prevent accidental moves
+    ignore_changes = [
+      subnet_id,
+
+      # Add these lines to avoid recreating existing instances
+      root_block_device[0].kms_key_id,
+      root_block_device[0].encrypted,
+    ]
   }
+
 
   # Instance tags (applied to resourceType = "instance")
   tags = merge(
@@ -152,7 +159,7 @@ resource "aws_instance" "this" {
     volume_type           = each.value.ebsroottype
     iops                  = try(each.value.ebsrootiops, 0) > 0 ? each.value.ebsrootiops : null
     encrypted             = true
-    kms_key_id            = local.net.ebs_kms_key_id # keep if SCP requires CMK usage
+    # kms_key_id            = local.net.ebs_kms_key_id # keep if SCP requires CMK usage
     delete_on_termination = true
   }
 
@@ -166,7 +173,7 @@ resource "aws_instance" "this" {
       volume_type           = ebs_block_device.value.type
       iops                  = try(ebs_block_device.value.iops, 0) > 0 ? ebs_block_device.value.iops : null
       encrypted             = ebs_block_device.value.encrypted
-      kms_key_id            = local.net.ebs_kms_key_id # keep if SCP requires CMK usage
+      # kms_key_id            = local.net.ebs_kms_key_id # keep if SCP requires CMK usage
       delete_on_termination = true
     }
   }
